@@ -1,10 +1,14 @@
 {
-    "name": "ronnylt/redlock-php",
+    "name": "kohver/redlock-php",
     "description": "Redis distributed locks in PHP",
     "authors": [
         {
             "name": "Ronny Lopez",
             "email": "ronny@tangotree.io"
+        },
+        {
+            "name": "Artyom Kohver",
+            "email": "tema@kohver.ru"
         }
     ],
     "require": {
@@ -13,10 +17,6 @@
     },
 
     "autoload": {
-        "psr-4": {
-            "RedLock\\": "src/"
-        }
+        "classmap": ["src/RedLock.php"]
     }
-
-
 }
