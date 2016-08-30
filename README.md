@@ -29,21 +29,12 @@ $lock = $redLock->lock('my_resource_name', 1000);
 Where the resource name is an unique identifier of what you are trying to lock
 and 1000 is the number of milliseconds for the validity time.
 
-The returned value is `false` if the lock was not acquired (you may try again),
-otherwise an array representing the lock is returned, having three keys:
+If the lock was not acquired `LockTimeoutException` will be thrown,
+otherwise an instance of `Lock` is returned, having three methods:
 
-```php
-Array
-(
-    [validity] => 9897.3020019531
-    [resource] => my_resource_name
-    [token] => 53771bfa1e775
-)
-```
-
-* validity, an integer representing the number of milliseconds the lock will be valid.
-* resource, the name of the locked resource as specified by the user.
-* token, a random token value which is used to safe reclaim the lock.
+* `getValidity`, an integer representing the number of milliseconds the lock will be valid.
+* `getResource`, the name of the locked resource as specified by the user.
+* `getToken`, a random token value which is used to safe reclaim the lock.
 
 To release a lock:
 

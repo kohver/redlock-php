@@ -1,5 +1,7 @@
 <?php
 
+use RedLock\RedLock;
+
 require_once __DIR__ . '/../src/RedLock.php';
 
 $servers = [
