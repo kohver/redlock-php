@@ -10,31 +10,18 @@ class RedLock {
     private $clockDriftFactor = 0.01;
 
     private $quorum;
-
-    private $servers = [];
     private $Instances = [];
 
     /**
-     * @param array[] $servers
+     * @param Predis[] $Instances
      * @param int $retryDelay
      * @param int $retryCount
      */
-    function __construct(array $servers, $retryDelay = 200, $retryCount = 3) {
-        $this->servers    = $servers;
+    function __construct(array $Instances, $retryDelay = 200, $retryCount = 3) {
+        $this->Instances  = $Instances;
         $this->retryDelay = $retryDelay;
         $this->retryCount = $retryCount;
-        $this->quorum     = min(count($servers), (count($servers) / 2 + 1));
-
-        foreach ($this->servers as $server) {
-            list($host, $port, $timeout) = $server;
-            $Redis = new Predis([
-                'host'    => $host,
-                'port'    => $port,
-                'timeout' => $timeout,
-            ]);
-
-            $this->Instances[] = $Redis;
-        }
+        $this->quorum     = min(count($Instances), (count($Instances) / 2 + 1));
     }
 
     /**

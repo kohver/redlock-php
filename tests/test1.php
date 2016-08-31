@@ -1,19 +1,19 @@
 <?php
 
+use Predis\Client;
 use RedLock\RedLock;
 
 require_once __DIR__ . '/../src/RedLock.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$servers = [
-    ['127.0.0.1', 6379, 0.01],
-    ['127.0.0.1', 6389, 0.01],
-    ['127.0.0.1', 6399, 0.01],
-];
-
-$redLock = new RedLock($servers);
+$RedLock = new RedLock([
+    new Client(['host' => '127.0.0.1', 'port' => 6379, 'timeout' => 0.01]),
+    new Client(['host' => '127.0.0.1', 'port' => 6380, 'timeout' => 0.01]),
+    new Client(['host' => '127.0.0.1', 'port' => 6381, 'timeout' => 0.01]),
+]);
 
 while (true) {
-    $lock = $redLock->lock('test', 10000);
+    $lock = $RedLock->lock('test', 10000);
 
     if ($lock) {
         print_r($lock);

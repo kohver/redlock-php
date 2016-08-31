@@ -8,13 +8,11 @@ To create a lock manager:
 
 ```php
 
-$servers = [
-    ['127.0.0.1', 6379, 0.01],
-    ['127.0.0.1', 6389, 0.01],
-    ['127.0.0.1', 6399, 0.01],
-];
-
-$redLock = new RedLock($servers);
+$RedLock = new RedLock([
+    new Client(['host' => '127.0.0.1', 'port' => 6379, 'timeout' => 0.01]),
+    new Client(['host' => '127.0.0.1', 'port' => 6380, 'timeout' => 0.01]),
+    new Client(['host' => '127.0.0.1', 'port' => 6381, 'timeout' => 0.01]),
+]);
 
 ```
 
@@ -22,7 +20,7 @@ To acquire a lock:
 
 ```php
 
-$lock = $redLock->lock('my_resource_name', 1000);
+$lock = $RedLock->lock('my_resource_name', 1000);
 
 ```
 
@@ -39,7 +37,9 @@ otherwise an instance of `Lock` is returned, having three methods:
 To release a lock:
 
 ```php
-    $redLock->unlock($lock)
+
+$RedLock->unlock($lock)
+
 ```
 
 It is possible to setup the number of retries (by default 3) and the retry
